@@ -1,9 +1,13 @@
-import pyautogui , time , sys  , os
+import pyautogui , time , sys  , os , colorama , requests
 from pathlib import Path
-  
-import requests
 from os import system
 
+
+CEND      = '\33[0m'
+CGREEN2  = '\33[92m'
+CBLUE   = '\33[34m'
+CRED    = '\33[31m'
+CYELLOW = '\33[33m'
 
 def fivesectimer():
     num = ['5',
@@ -41,9 +45,9 @@ def tensectimer():
 def normalspam():
 
     print("What do you want to spam ? ")
-    word = input(">>> ")
+    word = input(CRED + ">>> " + CEND)
     print("How many time do you want to spam ? ")
-    x = int(input(">>> "))
+    x = int(input(CRED + ">>> " + CEND))
 
     fivesectimer()
 
@@ -54,13 +58,13 @@ def normalspam():
 
 def wordlistspam():
     print("Enter the .txt file name (without .txt)")
-    filename = input(">>> ")
+    filename = input(CRED + ">>> " + CEND)
     filenames = (filename+".txt")
 
     if Path(filenames).exists():
 
         print("Do you wish to start now ? [ Y / N ]")
-        yn = input(">>> ")
+        yn = input(CRED + ">>> " + CEND)
         yn = yn.lower()
 
         if yn == ("y"):
@@ -85,7 +89,7 @@ def wordlistspam():
     
     if not Path(filenames).exists():
         print(filenames + ".txt do not exist do you want to create new .txt with that name ? [ Y / N ]")
-        respond = input(">>> ")
+        respond = input(CRED + ">>> " + CEND)
         respond = respond.lower()
 
         if respond == ("y"):
@@ -141,7 +145,7 @@ def choice():
     print("                |                                                      |")
     print("               [*]=--------------------------------------------------=[*]")
     print("")
-    spamchoice = input(">>> ")
+    spamchoice = input(CRED + ">>> " + CEND)
     
     if spamchoice == ("1"):
         os.system("cls")
