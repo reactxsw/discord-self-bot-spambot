@@ -116,7 +116,7 @@ def discordwebhookspam():
         try:
             payload = {"content":WEBHOOK_CONTENT,"username":WEBHOOK_USERNAME,"avatar_url":WEBHOOK_AVATAR}
             r = requests.post(WEBHOOK_URL,data=payload)
-            x +=1
+            n +=1
             print(WEBHOOK_CONTENT + "have been sent to webhook")
         except:
             print("Spam failed")
