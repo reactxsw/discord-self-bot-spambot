@@ -106,13 +106,13 @@ def wordlistspam():
             c = input("Press enter to close.")
  
 def discordwebhookspam():
-    x = 0
+    n = 0
     WEBHOOK_URL = str(input("Webhook URL : "))
     WEBHOOK_USERNAME = str(input("Name : "))
     WEBHOOK_AVATAR = str(input("Avatarurl : "))
     WEBHOOK_CONTENT = str(input("What to spam : "))
     SPAM = int(input("How many time to spam : "))
-    while x < SPAM:
+    while n < SPAM:
         try:
             payload = {"content":WEBHOOK_CONTENT,"username":WEBHOOK_USERNAME,"avatar_url":WEBHOOK_AVATAR}
             r = requests.post(WEBHOOK_URL,data=payload)
@@ -139,9 +139,10 @@ def self_bot():
         print(f"The token : {Token} is valid")
         
     react = commands.Bot(command_prefix='.r ', self_bot=True)
+    react.remove_command("help")
 
     dot = ['.','..','...','....','.','..','...','....','.','..','...','....','.','..','...','....']
-    
+
     print("status : offline")
     for i in dot:
         sys.stdout.write("\r\x1b[K" + "starting " +i)
@@ -154,19 +155,59 @@ def self_bot():
         os.system("cls")
         print('status : online')
         print("Type .r dmall [message] : Messages every user in that server")
- 
-    @react.command(name="dmall")
-    async def dm_all(ctx, message):
-        await ctx.message.delete()
-        for member in ctx.guild.members:
-            try:
-                await member.create_dm()
-                await member.dm_channel.send(message)
-                print("Message has been sent to "+ member.name)
-            except:
-                print("Message failed to sent to "+ member.name)
+        print("Type .r rnall : Rename every user in that server")
+        print("Type .r kall : Kick every user in that server")
+        print("Type .r ball : Messages every user in that server")
 
-    react.run(Token, bot=False, reconnect=True)
+    try:
+        async def self_check(ctx):
+            if react.user.id == ctx.message.author.id:
+                return True
+            else:
+                return False
+
+        @commands.check(self_check)
+        @react.command(name="dmall")
+        async def dmall(ctx, message):
+            await ctx.message.delete()
+            for member in ctx.guild.members:
+                try:
+                    await member.create_dm()
+                    await member.dm_channel.send(message)
+                    print("Message has been sent to "+ member.name)
+                except:
+                    print("Message failed to sent to "+ member.name)
+            
+        @commands.check(self_check)
+        @react.command(pass_context=True)
+        async def rnall(ctx, rename_to):
+            await ctx.message.delete()
+            for member in list(ctx.guild.members):
+                try:
+                    await member.edit(name= rename_to)
+                    print(f"{member.name} has been renamed to {rename_to} in server {ctx.guild.name}")
+                except:
+                    print(f"{member.name} has failed to be renamed to {rename_to} in server {ctx.guild.name}")
+                
+            print ("Rename complete")
+
+        @commands.check(self_check)
+        @react.command(pass_context=True)
+        async def ball(ctx):
+            await ctx.message.delete()
+            for member in list(ctx.guild.members):
+                try:
+                    await ctx.guild.ban(member)
+                    print (f"{member.name} has been banned from {ctx.guild.name}")
+                except:
+                    print (f"{member.name} has failed to be banned from {ctx.guild.name}")
+
+            print ("Ban all complete")  
+
+    except:
+        pass
+
+        react.run(Token, bot=False, reconnect=True)
         
 def credit():
     print("")
