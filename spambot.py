@@ -1,4 +1,4 @@
-import pyautogui , time , sys  , os , colorama , requests ,discord , asyncio , subprocess
+import pyautogui , time , sys  , os , colorama , requests ,discord , asyncio , subprocess ,smtplib ,getpass
 from pathlib import Path 
 from os import system
 from discord.ext import commands, tasks 
@@ -169,6 +169,7 @@ def self_bot():
         @commands.check(self_check)
         @react.command(name="dmall")
         async def dmall(ctx, message):
+            os.system("cls")
             await ctx.message.delete()
             for member in ctx.guild.members:
                 try:
@@ -181,6 +182,7 @@ def self_bot():
         @commands.check(self_check)
         @react.command(pass_context=True)
         async def rnall(ctx, rename_to):
+            os.system("cls")
             await ctx.message.delete()
             for member in list(ctx.guild.members):
                 try:
@@ -189,11 +191,13 @@ def self_bot():
                 except:
                     print(f"{member.name} has failed to be renamed to {rename_to} in server {ctx.guild.name}")
                 
-            print ("Rename complete")
+            print("Rename complete")
+
 
         @commands.check(self_check)
         @react.command(pass_context=True)
         async def ball(ctx):
+            os.system("cls")
             await ctx.message.delete()
             for member in list(ctx.guild.members):
                 try:
@@ -208,6 +212,58 @@ def self_bot():
         pass
 
         react.run(Token, bot=False, reconnect=True)
+
+def Emailspam():
+    print("Choose your email provider")
+    print("1. Gmail")
+    print("2. Outlook")
+    provider = input(CRED + ">>> " + CEND)
+    os.system("cls")
+
+    useremail = input("EMAIL : ")
+    userpass = input("PASSWORD : ")
+    os.system("cls")
+
+    victimemail = input("Victim email : ")
+    Content = input('Message : ')
+    Number = int(input("Number of mail to send : "))
+    os.system("cls")
+    
+    #https://www.androidauthority.com/gmail-smtp-settings-801100/#:~:text=SMTP%20server%20address%3A%20smtp.gmail,SMTP%20port%20(SSL)%3A%20465
+    if provider == ("1"):
+        smtp_server = 'smtp.gmail.com'
+        port = 587
+    #https://support.microsoft.com/en-us/office/pop-imap-and-smtp-settings-for-outlook-com-d088b986-291d-42b8-9564-9c414e2aa040
+    elif provider == ("2"):
+        smtp_server = 'smtp.office365.com'
+        port = 587
+    
+    else:
+        print("Invalid choice")
+        skrr = input("press enter to close")
+        exit()
+
+    try:
+        server = smtplib.SMTP(smtp_server,port)
+        server.connect(smtp_server,port)
+        server.ehlo()
+        server.starttls()
+        server.login(useremail,userpass)
+
+
+        for i in range(0,Number):
+            print("Number of Message Sent to " + victimemail + ":" , i+1)
+            server.sendmail(useremail,victimemail,Content)
+            time.sleep(1)
+
+        print("Finished")
+        server.close()
+
+    except Exception as e:
+        print(e)
+        print('The username or password you entered is incorrect.')
+        p = input("Press enter to close")
+        exit()
         
 def credit():
     print("")
@@ -216,6 +272,7 @@ def credit():
     print("                |                 Discord : REACT#1120                                                 |")                     
     print("                |                 Github : https://github.com/reactxsw                                 |")
     print("                |                 steam : https://steamcommunity.com/id/reactswthegod/                 |")
+    print("                |                 Youtube : https://www.youtube.com/ANAPAH555                          |")
     print("                |                                                                                      |")
     print("                |                 Discord server invite link :                                         |")
     print("                |                 https://discord.com/invite/R8RYXyB4Cg                                |")
@@ -231,8 +288,9 @@ def choice():
     print("                |                 2. Wordlist spambot                  |")
     print("                |                 3. Discord webhook spam              |")
     print("                |                 4. Discord self bot                  |")
-    print("                |                 5. Credit                            |")
-    print("                |                                                      |")
+    print("                |                 5. Email spam                        |")
+    print("                |                 6. SMS spam (working on this)        |")
+    print("                |                 7. Credit                            |")
     print("                |                                                      |")
     print("               [*]=--------------------------------------------------=[*]")
     print("")
@@ -242,20 +300,30 @@ def choice():
         os.system("cls")
         normalspam()
  
-    if spamchoice == ("2"):
+    elif spamchoice == ("2"):
         os.system("cls")
         wordlistspam()
     
-    if spamchoice == ("3"):
+    elif spamchoice == ("3"):
         os.system("cls")
         discordwebhookspam()
 
-    if spamchoice == ("4"):
+    elif spamchoice == ("4"):
         os.system("cls")
         self_bot()
     
-    if spamchoice == ("5"):
+    elif spamchoice == ("5"):
+        os.system("cls")
+        Emailspam()
+
+    elif spamchoice == ("6"):
         os.system("cls")
         credit()
+
+    else:
+        os.system("cls")
+        p = input("Invalid choice press enter to close")
+        exit()
+        
 
 choice()
