@@ -78,7 +78,7 @@ def wordlistspam():
                 pyautogui.typewrite(i)
                 pyautogui.press("enter")
  
-            fin = input("The task is finish press enter to close")
+            input("The task is finish press enter to close")
             exit()
  
         if yn == ("n"):
@@ -86,7 +86,7 @@ def wordlistspam():
             exit()
         
         else:
-            v = input("invalid choice press enter to close")
+            input("invalid choice press enter to close")
  
  
     
@@ -103,7 +103,7 @@ def wordlistspam():
             exit()
         
         if respond == ("n"):
-            c = input("Press enter to close.")
+            input("Press enter to close.")
  
 def discordwebhookspam():
     n = 0
@@ -133,7 +133,7 @@ def self_bot():
 
     if req.status_code == 401:
         print(f"The token : {Token} is invalid")
-        inv = input("press enter to close")
+        input("press enter to close")
         exit()
     if req.status_code == 200:
         print(f"The token : {Token} is valid")
@@ -212,11 +212,12 @@ def self_bot():
         pass
 
         react.run(Token, bot=False, reconnect=True)
-
+    
 def Emailspam():
     print("Choose your email provider")
     print("1. Gmail")
     print("2. Outlook")
+    print("3. Yahoo")
     provider = input(CRED + ">>> " + CEND)
     os.system("cls")
 
@@ -229,18 +230,22 @@ def Emailspam():
     Number = int(input("Number of mail to send : "))
     os.system("cls")
     
-    #https://www.androidauthority.com/gmail-smtp-settings-801100/#:~:text=SMTP%20server%20address%3A%20smtp.gmail,SMTP%20port%20(SSL)%3A%20465
+    
     if provider == ("1"):
         smtp_server = 'smtp.gmail.com'
         port = 587
-    #https://support.microsoft.com/en-us/office/pop-imap-and-smtp-settings-for-outlook-com-d088b986-291d-42b8-9564-9c414e2aa040
+    
     elif provider == ("2"):
         smtp_server = 'smtp.office365.com'
         port = 587
     
+    elif provider == ("3"):
+        smtp_server = 'smtp.mail.yahoo.com'
+        port = 25
+    
     else:
         print("Invalid choice")
-        skrr = input("press enter to close")
+        input("press enter to close")
         exit()
 
     try:
@@ -249,7 +254,6 @@ def Emailspam():
         server.ehlo()
         server.starttls()
         server.login(useremail,userpass)
-
 
         for i in range(0,Number):
             print("Number of Message Sent to " + victimemail + ":" , i+1)
@@ -261,8 +265,7 @@ def Emailspam():
 
     except Exception as e:
         print(e)
-        print('The username or password you entered is incorrect.')
-        p = input("Press enter to close")
+        input("Press enter to close")
         exit()
         
 def credit():
@@ -322,7 +325,7 @@ def choice():
 
     else:
         os.system("cls")
-        p = input("Invalid choice press enter to close")
+        input("Invalid choice press enter to close")
         exit()
         
 
