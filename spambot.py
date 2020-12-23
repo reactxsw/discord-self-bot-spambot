@@ -1,17 +1,15 @@
+from colorama import Fore, init, Back, Style
+init()
+
 import pyautogui , time , sys  , os , colorama , requests ,discord , asyncio , subprocess ,smtplib ,getpass
+
 from pathlib import Path 
 from os import system
 from discord.ext import commands, tasks 
 
  
 #self bot command prefix
- 
-CEND      = '\33[0m'
-CGREEN2  = '\33[92m'
-CBLUE   = '\33[34m'
-CRED    = '\33[31m'
-CYELLOW = '\33[33m'
- 
+colorama.init()
 def fivesectimer():
     num = ['5',
            '4',
@@ -48,26 +46,41 @@ def tensectimer():
 def normalspam():
  
     print("What do you want to spam ? ")
-    word = input(CRED + ">>> " + CEND)
+    word = input(Fore.RED + ">>> " + Fore.RESET)
     print("How many time do you want to spam ? ")
-    x = int(input(CRED + ">>> " + CEND))
+    x = int(input(Fore.RED + ">>> " + Fore.RESET))
  
     fivesectimer()
  
     for i in range(x):
         pyautogui.typewrite(word)
         pyautogui.press("enter")
+    
+    print("Finished spamming")
+
+    conti = input("Do you want to continue ? [ Y / N ] ").lower()
+
+    if conti == ("y"):
+        print("restarting...")
+        choice()
+
+    elif conti == ("n"):
+        tensectimer()
+        exit()
+    
+    else:
+        input("Invalid choice press enter to close")
  
  
 def wordlistspam():
     print("Enter the .txt file name (without .txt)")
-    filename = input(CRED + ">>> " + CEND)
+    filename = input(Fore.RED + ">>> " + Fore.RESET)
     filenames = (filename+".txt")
  
     if Path(filenames).exists():
  
         print("Do you wish to start now ? [ Y / N ]")
-        yn = input(CRED + ">>> " + CEND)
+        yn = input(Fore.RED + ">>> " + Fore.RESET)
         yn = yn.lower()
  
         if yn == ("y"):
@@ -79,7 +92,6 @@ def wordlistspam():
                 pyautogui.press("enter")
  
             input("The task is finish press enter to close")
-            exit()
  
         if yn == ("n"):
             tensectimer()
@@ -87,24 +99,48 @@ def wordlistspam():
         
         else:
             input("invalid choice press enter to close")
- 
- 
+    
+    conti = input("Do you want to continue ? [ Y / N ] ").lower()
+
+    if conti == ("y"):
+        print("restarting...")
+        choice()
+
+    elif conti == ("n"):
+        tensectimer()
+        exit()
+    
+    else:
+        input("Invalid choice press enter to close")
     
     if not Path(filenames).exists():
         print(filenames + ".txt do not exist do you want to create new .txt with that name ? [ Y / N ]")
-        respond = input(CRED + ">>> " + CEND)
+        respond = input(Fore.RED + ">>> " + Fore.RESET)
         respond = respond.lower()
  
         if respond == ("y"):
-            file = open(filenames ,'w')
-            w = input("Please write the wordlist in " + filenames + " and run the program again")
+            open(filenames ,'w')
+            input("Please write the wordlist in " + filenames + " and run the program again")
  
             tensectimer()
             exit()
         
         if respond == ("n"):
             input("Press enter to close.")
- 
+    
+    conti = input("Do you want to continue ? [ Y / N ] ").lower()
+
+    if conti == ("y"):
+        print("restarting...")
+        choice()
+
+    elif conti == ("n"):
+        tensectimer()
+        exit()
+    
+    else:
+        input("Invalid choice press enter to close")
+        
 def discordwebhookspam():
     n = 0
     WEBHOOK_URL = str(input("Webhook URL : "))
@@ -115,7 +151,7 @@ def discordwebhookspam():
     while n < SPAM:
         try:
             payload = {"content":WEBHOOK_CONTENT,"username":WEBHOOK_USERNAME,"avatar_url":WEBHOOK_AVATAR}
-            r = requests.post(WEBHOOK_URL,data=payload)
+            requests.post(WEBHOOK_URL,data=payload)
             n +=1
             print(WEBHOOK_CONTENT + "have been sent to webhook")
         except:
@@ -123,6 +159,19 @@ def discordwebhookspam():
             pass
     os.system("cls")
     print("Spam finished")
+
+    conti = input("Do you want to continue ? [ Y / N ] ").lower()
+
+    if conti == ("y"):
+        print("restarting...")
+        choice()
+
+    elif conti == ("n"):
+        tensectimer()
+        exit()
+    
+    else:
+        input("Invalid choice press enter to close")
 
 def self_bot():
     Token = input("DISCORD TOKEN : ")
@@ -141,7 +190,7 @@ def self_bot():
     react = commands.Bot(command_prefix='.r ', self_bot=True)
     react.remove_command("help")
 
-    dot = ['.','..','...','....','.','..','...','....','.','..','...','....','.','..','...','....']
+    dot = ['.','..','...','....','.','..','...','....','.','..','...','....','.','..','...','....','.','..','...','....']
 
     print("status : offline")
     for i in dot:
@@ -212,24 +261,14 @@ def self_bot():
         pass
 
         react.run(Token, bot=False, reconnect=True)
-    
+
 def Emailspam():
     print("Choose your email provider")
     print("1. Gmail")
     print("2. Outlook")
     print("3. Yahoo")
-    provider = input(CRED + ">>> " + CEND)
+    provider = input(Fore.RED + ">>> " + Fore.RESET)
     os.system("cls")
-
-    useremail = input("EMAIL : ")
-    userpass = input("PASSWORD : ")
-    os.system("cls")
-
-    victimemail = input("Victim email : ")
-    Content = input('Message : ')
-    Number = int(input("Number of mail to send : "))
-    os.system("cls")
-    
     
     if provider == ("1"):
         smtp_server = 'smtp.gmail.com'
@@ -248,61 +287,130 @@ def Emailspam():
         input("press enter to close")
         exit()
 
-    try:
-        server = smtplib.SMTP(smtp_server,port)
-        server.connect(smtp_server,port)
-        server.ehlo()
-        server.starttls()
-        server.login(useremail,userpass)
+    if Path("accountinfo.txt").exists():
+        f = open("accountinfo.txt")
+        lines = f.readlines()
+        useremail = lines[0]
+        userpass = lines[1]
+        victimemail = input("Victim email : ")
+        Content = input('Message : ')
+        Number = int(input("Number of mail to send : "))
+        os.system("cls")
+        try:
+            server = smtplib.SMTP(smtp_server,port)
+            server.connect(smtp_server,port)
+            server.ehlo()
+            server.starttls()
+            server.login(useremail,userpass)
 
-        for i in range(0,Number):
-            print("Number of Message Sent to " + victimemail + ":" , i+1)
-            server.sendmail(useremail,victimemail,Content)
-            time.sleep(1)
+            for i in range(0,Number):
+                print("Number of Message Sent to " + victimemail + ":" , i+1)
+                server.sendmail(useremail,victimemail,Content)
+                time.sleep(1)
 
-        print("Finished")
-        server.close()
+            print("Finished")
+            server.close()
 
-    except Exception as e:
-        print(e)
-        input("Press enter to close")
-        exit()
+        except Exception as e:
+            print(e)
+            input("Press enter to close")
+            exit()
+
+    if not Path("accountinfo.txt").exists():
+        useremail = input("EMAIL : ")
+        userpass = input("PASSWORD : ")
+        os.system("cls")
+        save = input("Do you want to save the email and password ? [ Y / N ] ").lower()
+
+        if save==("y"):
+            with open("accountinfo.txt", "w") as writeinfo:
+                writeinfo.writelines(
+                    [useremail+'\n',
+                     userpass +'\n']
+                )
+            
+            print("Data have been save")
         
+        elif save == ("n"):
+            print("Data have not been save")
+
+        else:
+            input("invalid answer")
+            exit()
+
+        victimemail = input("Victim email : ")
+        Content = input('Message : ')
+        Number = int(input("Number of mail to send : "))
+        os.system("cls")
+        try:
+            server = smtplib.SMTP(smtp_server,port)
+            server.connect(smtp_server,port)
+            server.ehlo()
+            server.starttls()
+            server.login(useremail,userpass)
+
+            for i in range(0,Number):
+                print("Number of Message Sent to " + victimemail + ":" , i+1)
+                server.sendmail(useremail,victimemail,Content)
+                time.sleep(1)
+
+            print("Finished")
+            server.close()
+
+        except Exception as e:
+            print(e)
+            input("Press enter to close")
+            exit()
+    conti = input("Do you want to continue ? [ Y / N ] ").lower()
+
+    if conti == ("y"):
+        print("restarting...")
+        choice()
+
+    elif conti == ("n"):
+        tensectimer()
+        exit()
+    
+    else:
+        input("Invalid choice press enter to close")
+
 def credit():
     print("")
-    print("               [*]=----------------------------------------------------------------------------------=[*]")
-    print("                |                                                                                      |")
-    print("                |                 Discord : REACT#1120                                                 |")                     
-    print("                |                 Github : https://github.com/reactxsw                                 |")
-    print("                |                 steam : https://steamcommunity.com/id/reactswthegod/                 |")
-    print("                |                 Youtube : https://www.youtube.com/ANAPAH555                          |")
-    print("                |                                                                                      |")
-    print("                |                 Discord server invite link :                                         |")
-    print("                |                 https://discord.com/invite/R8RYXyB4Cg                                |")
-    print("                |                                                                                      |")
-    print("               [*]=----------------------------------------------------------------------------------=[*]")
+    print("                             [*]=----------------------------------------------------------------------------------=[*]")
+    print("                              |                                                                                      |")
+    print("                              |                 Discord : REACT#1120                                                 |")                     
+    print("                              |                 Github : https://github.com/reactxsw                                 |")
+    print("                              |                 steam : https://steamcommunity.com/id/reactswthegod/                 |")
+    print("                              |                 Youtube : https://www.youtube.com/ANAPAH555                          |")
+    print("                              |                                                                                      |")
+    print("                              |                 Discord server invite link :                                         |")
+    print("                              |                 https://discord.com/invite/R8RYXyB4Cg                                |")
+    print("                              |                                                                                      |")
+    print("                             [*]=----------------------------------------------------------------------------------=[*]")
     print("")
-    ic = input("")
+    input("")
  
 def choice():
-    print("               [*]=--------------------------------------------------=[*]")
-    print("                |                                                      |")
-    print("                |                 1. Normal spambot                    |")                     
-    print("                |                 2. Wordlist spambot                  |")
-    print("                |                 3. Discord webhook spam              |")
-    print("                |                 4. Discord self bot                  |")
-    print("                |                 5. Email spam                        |")
-    print("                |                 6. SMS spam (working on this)        |")
-    print("                |                 7. Credit                            |")
-    print("                |                                                      |")
-    print("               [*]=--------------------------------------------------=[*]")
+    os.system("cls")
+    print()
+    print(Fore.BLUE + "                            [*]=--------------------------------------------------=[*]"+ Fore.RESET)
+    print(Fore.BLUE + "                             |                                                      |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 1. Normal spambot" + Fore.BLUE + "                                    |"+ Fore.RESET)                     
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 2. Wordlist spambot" + Fore.BLUE + "                                  |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 3. Discord webhook spam" + Fore.BLUE + "                              |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 4. Discord self bot" + Fore.BLUE + "                                  |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 5. Email spam" + Fore.BLUE + "                                        |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 6. credits" + Fore.BLUE + "                                           |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |                                                      |"+ Fore.RESET)
+    print(Fore.BLUE + "                             |" + Fore.RESET +" 7. close" + Fore.BLUE + "                                             |"+ Fore.RESET)
+    print(Fore.BLUE + "                            [*]=--------------------------------------------------=[*]"+ Fore.RESET)
     print("")
-    spamchoice = input(CRED + ">>> " + CEND)
+    spamchoice = input(Fore.RED + ">>> " + Fore.RESET)
     
     if spamchoice == ("1"):
         os.system("cls")
         normalspam()
- 
+           
     elif spamchoice == ("2"):
         os.system("cls")
         wordlistspam()
@@ -321,7 +429,15 @@ def choice():
 
     elif spamchoice == ("6"):
         os.system("cls")
-        credit()
+        print("lol")
+        time.sleep(3)
+        exit()    
+
+    elif spamchoice == ("7"):
+        os.system("cls")
+        print("Why do you even run it ? ")
+        input("")
+        exit()
 
     else:
         os.system("cls")
