@@ -5,3 +5,6 @@ Spambot with many function made with python
 3. Discord webhook spam : Spam a discord webhook (require permission to get the webhook)
 4. Selfbot : Discord selfbot for griefing have function such as kickall , banall , rename all (require permission) and dmall which bascally dm everyone in the server and does not require permission
 5. Email spam : Input your email and password and will use that to spam the target email with specific time
+
+
+I do not take any responsibility for anyone using this in a wrong way. This is for educational purposes.
