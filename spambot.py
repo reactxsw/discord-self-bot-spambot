@@ -7,7 +7,6 @@ from pathlib import Path
 from os import system
 from discord.ext import commands, tasks 
 
- 
 #self bot command prefix
 colorama.init()
 def fivesectimer():
@@ -42,7 +41,21 @@ def tensectimer():
         time.sleep(1)
     
     os.system("cls")
- 
+
+def checkinternetconnection():
+    respond = True
+    try:
+        requests.get('https://www.google.com', verify=True)
+        respond = True
+    except Exception:
+        respond = False
+    
+    if respond == True:
+        print(Fore.GREEN + "Internet connection is good" + Fore.RESET)
+
+    if respond == False:
+        print(Fore.RED + "Internet connection is bad" + Fore.RESET)
+
 def normalspam():
  
     print("What do you want to spam ? ")
@@ -148,6 +161,7 @@ def discordwebhookspam():
     WEBHOOK_AVATAR = str(input("Avatarurl : "))
     WEBHOOK_CONTENT = str(input("What to spam : "))
     SPAM = int(input("How many time to spam : "))
+    
     while n < SPAM:
         try:
             payload = {"content":WEBHOOK_CONTENT,"username":WEBHOOK_USERNAME,"avatar_url":WEBHOOK_AVATAR}
@@ -186,7 +200,8 @@ def self_bot():
         exit()
     if req.status_code == 200:
         print(f"The token : {Token} is valid")
-        
+    
+    checkinternetconnection()
     react = commands.Bot(command_prefix='.r ', self_bot=True)
     react.remove_command("help")
 
@@ -286,7 +301,7 @@ def Emailspam():
         print("Invalid choice")
         input("press enter to close")
         exit()
-
+    checkinternetconnection()
     if Path("accountinfo.txt").exists():
         f = open("accountinfo.txt")
         lines = f.readlines()
@@ -376,17 +391,17 @@ def Emailspam():
 
 def credit():
     print("")
-    print("                             [*]=----------------------------------------------------------------------------------=[*]")
-    print("                              |                                                                                      |")
-    print("                              |                 Discord : REACT#1120                                                 |")                     
-    print("                              |                 Github : https://github.com/reactxsw                                 |")
-    print("                              |                 steam : https://steamcommunity.com/id/reactswthegod/                 |")
-    print("                              |                 Youtube : https://www.youtube.com/ANAPAH555                          |")
-    print("                              |                                                                                      |")
-    print("                              |                 Discord server invite link :                                         |")
-    print("                              |                 https://discord.com/invite/R8RYXyB4Cg                                |")
-    print("                              |                                                                                      |")
-    print("                             [*]=----------------------------------------------------------------------------------=[*]")
+    print(Fore.BLUE +"                             [*]=----------------------------------------------------------------------------------=[*]" + Fore.RESET)
+    print(Fore.BLUE +"                              |                                                                                      |")
+    print(Fore.BLUE +"                              |" + Fore.RESET +"                Discord : REACT#1120" + Fore.BLUE + "                                                  |")                     
+    print(Fore.BLUE +"                              |" + Fore.RESET +"                Github : https://github.com/reactxsw" + Fore.BLUE + "                                  |")
+    print(Fore.BLUE +"                              |" + Fore.RESET +"                steam : https://steamcommunity.com/id/reactswthegod/" + Fore.BLUE + "                  |")
+    print(Fore.BLUE +"                              |" + Fore.RESET +"                Youtube : https://www.youtube.com/ANAPAH555" + Fore.BLUE + "                           |")
+    print(Fore.BLUE +"                              |                                                                                      |")
+    print(Fore.BLUE +"                              |" + Fore.RESET +"                Discord server invite link :" + Fore.BLUE + "                                          |")
+    print(Fore.BLUE +"                              |" + Fore.RESET +"               https://discord.com/invite/R8RYXyB4Cg" + Fore.BLUE + "                                  |")
+    print(Fore.BLUE +"                              |                                                                                      |")
+    print(Fore.BLUE +"                             [*]=----------------------------------------------------------------------------------=[*]")
     print("")
     input("")
  
@@ -429,9 +444,7 @@ def choice():
 
     elif spamchoice == ("6"):
         os.system("cls")
-        print("lol")
-        time.sleep(3)
-        exit()    
+        credit()
 
     elif spamchoice == ("7"):
         os.system("cls")
